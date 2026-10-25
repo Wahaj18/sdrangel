@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.          //
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <QCloseEvent>
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -38,6 +39,14 @@ MCPServerGUI* MCPServerGUI::create(PluginAPI* pluginAPI, FeatureUISet *featureUI
 void MCPServerGUI::destroy()
 {
 	delete this;
+}
+
+// The server is shared by every workspace through the AI button, so closing the
+// window only hides it rather than removing the feature and stopping the server.
+void MCPServerGUI::closeEvent(QCloseEvent *event)
+{
+    hide();
+    event->ignore();
 }
 
 void MCPServerGUI::resetToDefaults()
